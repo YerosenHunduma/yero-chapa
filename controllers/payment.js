@@ -42,7 +42,7 @@ const webhookHanddler = async (req, res) => {
   } = req.body;
 
   const hash = crypto
-    .createHmac("sha256", secret)
+    .createHmac("sha256", "yerosen")
     .update(JSON.stringify(req.body))
     .digest("hex");
   if (hash === req.headers["x-chapa-signature"]) {
