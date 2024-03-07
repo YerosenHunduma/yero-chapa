@@ -41,7 +41,13 @@ const webhookHanddler = async (req, res) => {
     hash !== req.headers["x-chapa-signature"]
   ) {
     console.error("Invalid Chapa signature");
-    return res.status(403).send("Forbidden");
+    const payment = new Payment({
+      hash,
+      chapa: req.headers["Chapa-Signature"],
+      xchapa: req.headers["x-chapa-signature"],
+    });
+    await payment.save();
+    return res.send(200);
   }
   const {
     first_name,
