@@ -1,5 +1,4 @@
 const { Chapa } = require("chapa-nodejs");
-const chapaPayment = require("./chapaPayment");
 const crypto = require("crypto");
 const Payment = require("../models/asset");
 
