@@ -33,7 +33,7 @@ const webhookHanddler = async (req, res) => {
   const secret = process.env.Chapa_Secret_key;
   console.log(req.body);
   const hash = crypto
-    .createHmac("sha256", secret)
+    .createHmac("sha256", "yerosen")
     .update(JSON.stringify(req.body))
     .digest("hex");
   if (
