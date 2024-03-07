@@ -36,7 +36,10 @@ const webhookHanddler = async (req, res) => {
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
     .digest("hex");
-  if (hash !== req.headers["Chapa-Signature"]) {
+  if (
+    hash !== req.headers["Chapa-Signature"] ||
+    hash !== req.headers["x-chapa-signature"]
+  ) {
     console.error("Invalid Chapa signature");
     return res.status(403).send("Forbidden");
   }
