@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 let DB_Url = "";
 
 if (process.env.NODE_ENV === "DEVELOPMENT")
+  DB_Url = process.env.Mongo_Local_Url;
+if (process.env.NODE_ENV === "PRODUCTION")
   DB_Url = process.env.Mongo_Remote_Url;
-if (process.env.NODE_ENV === "PRODUCTION") DB_Url = process.env.Mongo_Prod_Url;
 
 mongoose.connect(process.env.Mongo_Local_Url);
 
