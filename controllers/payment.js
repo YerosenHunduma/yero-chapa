@@ -36,10 +36,7 @@ const webhookHanddler = async (req, res) => {
     .createHmac("sha256", "yerosen")
     .update(JSON.stringify(req.body))
     .digest("hex");
-  if (
-    hash !== req.headers["Chapa-Signature"] ||
-    hash !== req.headers["x-chapa-signature"]
-  ) {
+  if (hash !== req.headers["x-chapa-signature"]) {
     console.error("Invalid Chapa signature");
     const payment = new Payment({
       hash,
