@@ -1,4 +1,5 @@
 const { Chapa } = require("chapa-nodejs");
+const chapaPayment = require("./chapaPayment");
 const crypto = require("crypto");
 const Payment = require("../models/asset");
 
@@ -17,17 +18,34 @@ const PaymentService = async (req, res, next) => {
     currency: "ETB",
     amount: amount,
     tx_ref: tx_ref,
-    return_url: "https://yerosen.com/",
+    callback_url: "https://example.com/",
+
     customization: {
       title: title,
       description: description,
     },
   });
+  console.log(data);
   return res.status(200).json(data);
 };
 
 const webhookHanddler = async (req, res) => {
   const secret = process.env.Chapa_Secret_key;
+
+  const hash = crypto
+    .createHmac("sha256", secret)
+    .update(JSON.stringify(req.body))
+    .digest("hex");
+  if (hash !== req.headers["x-chapa-signature"]) {
+    console.error("Invalid Chapa signature");
+    const payment = new Payment({
+      hash,
+      chapa: req.headers["Chapa-Signature"],
+      xchapa: req.headers["x-chapa-signature"],
+    });
+    await payment.save();
+    return res.status(403).send("forbiden");
+  }
   const {
     first_name,
     last_name,
@@ -41,28 +59,23 @@ const webhookHanddler = async (req, res) => {
     reference,
   } = req.body;
 
-  const hash = crypto
-    .createHmac("sha256", "yerosen")
-    .update(JSON.stringify(req.body))
-    .digest("hex");
-  if (hash === req.headers["x-chapa-signature"]) {
-    const payment = new Payment({
-      first_name,
-      last_name,
-      email,
-      currency,
-      amount,
-      charge,
-      mode,
-      type,
-      status,
-      reference,
-    });
-    await payment.save();
-    return res.send(200);
-  }
+  const payment = new Payment({
+    first_name,
+    last_name,
+    email,
+    currency,
+    amount,
+    charge,
+    mode,
+    type,
+    status,
+    reference,
+  });
+  await payment.save();
+  console.log(payment);
+  console.log("Payment saved successfully");
 
-  return res.status(403).send("Forbidden");
+  res.send(200);
 };
 
 module.exports = { PaymentService, webhookHanddler };
