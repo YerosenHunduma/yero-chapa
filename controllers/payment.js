@@ -18,7 +18,6 @@ const PaymentService = async (req, res, next) => {
     currency: "ETB",
     amount: amount,
     tx_ref: tx_ref,
-    callback_url: "https://example.com/",
     return_url: "https://yerosen.com/",
     customization: {
       title: title,
@@ -32,7 +31,7 @@ const PaymentService = async (req, res, next) => {
 const webhookHanddler = async (req, res) => {
   const secret = process.env.Chapa_Secret_key;
   const hash = crypto
-    .createHmac("sha256", secret)
+    .createHmac("sha256", "yerosen")
     .update(JSON.stringify(req.body))
     .digest("hex");
   if (hash !== req.headers["Chapa-Signature"]) {
