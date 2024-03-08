@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   PaymentService,
-  webhookHanddler,
+
   chapaWebhook,
 } = require("../controllers/payment");
 
