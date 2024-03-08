@@ -6,7 +6,7 @@ const chapa = new Chapa({
   secretKey: process.env.Chapa_Secret_key,
 });
 
-const PaymentService = async (req, res, next) => {
+const PaymentService = async (req, res) => {
   var tx_ref = await chapa.generateTransactionReference();
   const { Fname, Lname, email, amount, title, description } = req.body;
 
@@ -77,6 +77,7 @@ const PaymentService = async (req, res, next) => {
 
 const chapaWebhook = async (req, res) => {
   console.log(req.body);
+  console.log(req.headers);
   const {
     first_name,
     last_name,
