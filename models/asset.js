@@ -50,6 +50,15 @@ const paymentSchema = new Schema({
     type: Date,
     required: true,
   },
+  hash: {
+    type: String,
+  },
+  chapa: {
+    type: String,
+  },
+  xchapa: {
+    type: String,
+  },
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);
