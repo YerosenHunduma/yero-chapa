@@ -111,4 +111,4 @@ const chapaWebhook = async (req, res) => {
   return res.send(403);
 };
 
-module.exports = { PaymentService, webhookHanddler, chapaWebhook };
+module.exports = { PaymentService, chapaWebhook };
