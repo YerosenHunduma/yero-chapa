@@ -87,6 +87,8 @@ const chapaWebhook = async (req, res) => {
     type,
     status,
     reference,
+    created_at,
+    updated_at,
   } = req.body;
   const hash = crypto
     .createHmac("sha256", secret)
@@ -104,6 +106,8 @@ const chapaWebhook = async (req, res) => {
       type,
       status,
       reference,
+      created_at,
+      updated_at,
     });
     await payment.save();
     return res.send(200);
