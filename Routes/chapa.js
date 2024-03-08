@@ -1,11 +1,13 @@
 const express = require("express");
-const { PaymentService, webhookHanddler } = require("../controllers/payment");
-const { verify } = require("crypto");
+const {
+  PaymentService,
+  webhookHanddler,
+  chapaWebhook,
+} = require("../controllers/payment");
 
 const router = express.Router();
 
 router.post("/pay", PaymentService);
-router.post("/myWebhook", webhookHanddler);
-router.get("/verify/:tx_ref", verify);
+router.post("/myWebhook", chapaWebhook);
 
 module.exports.chapaPaymentRoute = router;
