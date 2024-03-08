@@ -28,59 +28,8 @@ const PaymentService = async (req, res) => {
   return res.status(200).json(data);
 };
 
-// const webhookHanddler = async (req, res) => {
-//   const secret = process.env.Chapa_Secret_key;
-
-//   const hash = crypto
-//     .createHmac("sha256", "yerosen")
-//     .update(JSON.stringify(req.body))
-//     .digest("hex");
-//   if (hash !== req.headers["x-chapa-signature"]) {
-//     console.error("Invalid Chapa signature");
-//     const payment = new Payment({
-//       hash,
-//       chapa: req.headers["Chapa-Signature"],
-//       xchapa: req.headers["x-chapa-signature"],
-//     });
-//     await payment.save();
-//     return res.send(403);
-//   }
-//   const {
-//     first_name,
-//     last_name,
-//     email,
-//     currency,
-//     amount,
-//     charge,
-//     mode,
-//     type,
-//     status,
-//     reference,
-//   } = req.body;
-
-//   const payment = new Payment({
-//     first_name,
-//     last_name,
-//     email,
-//     currency,
-//     amount,
-//     charge,
-//     mode,
-//     type,
-//     status,
-//     reference,
-//   });
-//   await payment.save();
-
-//   res.status(200).send(hash);
-// };
-
 const chapaWebhook = async (req, res) => {
-  const secret = process.env.Chapa_Secret_key;
-  console.log(secret);
-  console.log(req.body);
-  console.log(req.headers);
-  console.log(req.headers["x-chapa-signature"]);
+  const secret = process.env.webhook_secret_key;
   const {
     first_name,
     last_name,
@@ -114,7 +63,6 @@ const chapaWebhook = async (req, res) => {
       created_at,
       updated_at,
     });
-    console.log(hash);
     await payment.save();
     return res.send(200);
   }
