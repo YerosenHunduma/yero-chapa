@@ -77,6 +77,10 @@ const PaymentService = async (req, res) => {
 
 const chapaWebhook = async (req, res) => {
   const secret = process.env.Chapa_Secret_key;
+  console.log(secret);
+  console.log(req.body);
+  console.log(req.headers);
+  console.log(req.headers["x-chapa-signature"]);
   const {
     first_name,
     last_name,
@@ -110,6 +114,7 @@ const chapaWebhook = async (req, res) => {
       created_at,
       updated_at,
     });
+    console.log(hash);
     await payment.save();
     return res.send(200);
   }
