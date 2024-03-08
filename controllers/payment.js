@@ -76,9 +76,7 @@ const PaymentService = async (req, res) => {
 // };
 
 const chapaWebhook = async (req, res) => {
-  console.log(req.body);
-  console.log(req.headers);
-  console.log(req.headers["x-chapa-signature"]);
+  const secret = process.env.Chapa_Secret_key;
   const {
     first_name,
     last_name,
@@ -94,7 +92,7 @@ const chapaWebhook = async (req, res) => {
     updated_at,
   } = req.body;
   const hash = crypto
-    .createHmac("sha256", "yerosen")
+    .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
     .digest("hex");
   if (hash == req.headers["x-chapa-signature"]) {
@@ -115,7 +113,6 @@ const chapaWebhook = async (req, res) => {
     await payment.save();
     return res.send(200);
   }
-  console.log(hash);
   return res.send(403);
 };
 
