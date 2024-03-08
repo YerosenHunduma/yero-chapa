@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const paymentSchema = new Schema({
   first_name: {
     type: String,
+    trim: true,
   },
   last_name: {
     type: String,
