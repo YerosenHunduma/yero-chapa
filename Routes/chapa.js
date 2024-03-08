@@ -1,9 +1,5 @@
 const express = require("express");
-const {
-  PaymentService,
-
-  chapaWebhook,
-} = require("../controllers/payment");
+const { PaymentService, chapaWebhook } = require("../controllers/payment");
 
 const router = express.Router();
 
