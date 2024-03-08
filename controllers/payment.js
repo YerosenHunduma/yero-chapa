@@ -114,6 +114,7 @@ const chapaWebhook = async (req, res) => {
     await payment.save();
     return res.send(200);
   }
+  console.log(hash);
   return res.send(403);
 };
 
