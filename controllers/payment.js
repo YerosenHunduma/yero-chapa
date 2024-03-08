@@ -78,6 +78,7 @@ const PaymentService = async (req, res) => {
 const chapaWebhook = async (req, res) => {
   console.log(req.body);
   console.log(req.headers);
+  console.log(req.headers["x-chapa-signature"]);
   const {
     first_name,
     last_name,
@@ -96,7 +97,7 @@ const chapaWebhook = async (req, res) => {
     .createHmac("sha256", "yerosen")
     .update(JSON.stringify(req.body))
     .digest("hex");
-  if (hash == req.headers["Chapa-Signature"]) {
+  if (hash == req.headers["x-chapa-signature"]) {
     const payment = new Payment({
       first_name,
       last_name,
