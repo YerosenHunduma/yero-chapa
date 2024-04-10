@@ -63,17 +63,17 @@ const chapaWebhook = async (req, res) => {
     });
     await payment.save();
     let plan = "";
-    let sd = req.body.created_at;
+    let startDate = new Date(created_at);
     let endDate;
     if (amount == 100) {
       plan = "monthly";
-      endDate = new Date(created_at.setMonth(created_at.getMonth() + 1));
+      endDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
     } else if (amount == 500) {
       plan = "quarterly";
-      endDate = new Date(created_at.setMonth(created_at.getMonth() + 3));
+      endDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
     } else if (amount == 1000) {
       plan = "yearly";
-      endDate = new Date(created_at.setFullYear(created_at.getFullYear() + 1));
+      endDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
     }
     const sub = new Subscription({
       subscription: {
