@@ -21,11 +21,6 @@ const PaymentService = async (req, res) => {
     callback_url: "https://yero-chapa.onrender.com/api/payment/verify,",
     return_url: "https://yerosen.com/",
   });
-  console.log(response);
-  let { data } = await chapa.verify({
-    tx_ref,
-  });
-
   console.log(data);
 
   return res.status(200).json(data);
