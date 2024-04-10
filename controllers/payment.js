@@ -24,6 +24,7 @@ const PaymentService = async (req, res) => {
       description: description,
     },
   });
+  console.log(tx_ref);
   console.log(data);
   return res.status(200).json(data);
 };
@@ -73,7 +74,7 @@ const verfiyPayment = async (req, res) => {
   const response = await chapa.verify({
     tx_ref,
   });
-  console.log(tx_ref);
+  console.log(response);
 };
 
 module.exports = { PaymentService, chapaWebhook, verfiyPayment };
