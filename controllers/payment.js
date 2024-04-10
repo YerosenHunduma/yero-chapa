@@ -62,7 +62,7 @@ const chapaWebhook = async (req, res) => {
       updated_at,
     });
     await payment.save();
-    let plan = "";
+    let plan = ""; // Change plan assignment to an empty string
     let endDate;
     if (amount == 100) {
       plan = "monthly";
@@ -77,7 +77,7 @@ const chapaWebhook = async (req, res) => {
     const sub = new Subscription({
       subscription: {
         plan,
-        startDate: new Date(Date.now()),
+        startDate: created_at,
         endDate,
       },
     });
