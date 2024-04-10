@@ -74,14 +74,14 @@ const chapaWebhook = async (req, res) => {
       plan = "yearly";
       endDate = new Date(created_at.setFullYear(created_at.getFullYear() + 1));
     }
-    new Subscription({
+    const sub = new Subscription({
       subscription: {
         plan,
         startDate: created_at ? created_at : updated_at,
         endDate,
       },
     });
-    await Subscription.save();
+    await sub.save();
     return res.send(200);
   }
   return res.send(403);
