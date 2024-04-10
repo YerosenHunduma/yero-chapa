@@ -11,7 +11,7 @@ const PaymentService = async (req, res) => {
 
   const { Fname, Lname, email, amount } = req.body;
 
-  const response = await chapa.initialize({
+  const data = await chapa.initialize({
     first_name: Fname,
     last_name: Lname,
     email: email,
