@@ -74,6 +74,8 @@ const chapaWebhook = async (req, res) => {
     } else if (amount == 1000) {
       plan = "yearly";
       endDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+    } else {
+      return res.status(400).send("Invalid amount");
     }
     const sub = new Subscription({
       subscription: {
