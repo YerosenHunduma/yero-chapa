@@ -18,10 +18,9 @@ const PaymentService = async (req, res) => {
     currency: "ETB",
     amount: amount,
     tx_ref: tx_ref,
-    callback_url: "https://yero-chapa.onrender.com/api/payment/verify,",
+    callback_url: "https://yero-chapa.onrender.com/api/payment/myWebhook,",
     return_url: "https://yerosen.com/",
   });
-  console.log(data);
 
   return res.status(200).json(data);
 };
@@ -68,10 +67,4 @@ const chapaWebhook = async (req, res) => {
   return res.send(403);
 };
 
-const verfiyPayment = async (req, res) => {
-  const response = await chapa.verify({
-    tx_ref,
-  });
-  console.log(response);
-};
-module.exports = { PaymentService, chapaWebhook, verfiyPayment };
+module.exports = { PaymentService, chapaWebhook };
