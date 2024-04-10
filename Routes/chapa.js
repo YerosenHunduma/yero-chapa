@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 router.post("/pay", PaymentService);
-router.post("/pay", verfiyPayment);
+router.post("/verify", verfiyPayment);
 router.post("/myWebhook", chapaWebhook);
 
 module.exports.chapaPaymentRoute = router;

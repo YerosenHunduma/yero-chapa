@@ -7,29 +7,27 @@ const chapa = new Chapa({
 });
 
 const PaymentService = async (req, res) => {
-  var tx_ref = await chapa.generateTransactionReference();
-  const { Fname, Lname, email, amount, title, description } = req.body;
+  const tx_ref = await chapa.generateTransactionReference();
 
-  const data = await chapa.initialize({
+  const { Fname, Lname, email, amount } = req.body;
+
+  const response = await chapa.initialize({
     first_name: Fname,
     last_name: Lname,
     email: email,
     currency: "ETB",
     amount: amount,
     tx_ref: tx_ref,
-    callback_url: "https://yero-chapa.onrender.com/api/payment/verify",
+    callback_url: "https://yero-chapa.onrender.com/api/payment/verify,",
     return_url: "https://yerosen.com/",
-    customization: {
-      title: title,
-      description: description,
-    },
-  });
-  console.log(tx_ref);
-  console.log(data);
-  const response = await chapa.verify({
-    tx_ref,
   });
   console.log(response);
+  let { data } = await chapa.verify({
+    tx_ref,
+  });
+
+  console.log(data);
+
   return res.status(200).json(data);
 };
 
@@ -69,6 +67,7 @@ const chapaWebhook = async (req, res) => {
       updated_at,
     });
     await payment.save();
+
     return res.send(200);
   }
   return res.send(403);
@@ -80,5 +79,4 @@ const verfiyPayment = async (req, res) => {
   });
   console.log(response);
 };
-
 module.exports = { PaymentService, chapaWebhook, verfiyPayment };
