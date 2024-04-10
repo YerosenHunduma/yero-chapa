@@ -77,7 +77,7 @@ const chapaWebhook = async (req, res) => {
     const sub = new Subscription({
       subscription: {
         plan,
-        startDate: created_at ? created_at : updated_at,
+        startDate: new Date(Date.now()),
         endDate,
       },
     });
