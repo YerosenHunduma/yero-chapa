@@ -39,9 +39,10 @@ const chapaWebhook = async (req, res) => {
     type,
     status,
     reference,
-    created_at,
     updated_at,
   } = req.body;
+  const sd = req.body.created_at;
+  console.log(sd);
   const hash = crypto
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
@@ -58,12 +59,11 @@ const chapaWebhook = async (req, res) => {
       type,
       status,
       reference,
-      created_at,
+      created_at: sd,
       updated_at,
     });
     await payment.save();
     let plan = "";
-    let sd = req.body.created_at;
     let endDate;
     if (amount == 100) {
       plan = "monthly";
