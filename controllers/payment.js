@@ -18,7 +18,7 @@ const PaymentService = async (req, res) => {
     amount: amount,
     tx_ref: tx_ref,
     callback_url: "https://example.com/",
-
+    return_url: "https://yerosen.com/",
     customization: {
       title: title,
       description: description,
@@ -69,4 +69,11 @@ const chapaWebhook = async (req, res) => {
   return res.send(403);
 };
 
-module.exports = { PaymentService, chapaWebhook };
+const verfiyPayment = async (req, res) => {
+  const response = await chapa.verify({
+    tx_ref,
+  });
+  console.log(tx_ref);
+};
+
+module.exports = { PaymentService, chapaWebhook, verfiyPayment };
