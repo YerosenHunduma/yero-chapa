@@ -8,12 +8,15 @@ const SubSchema = new Schema(
           type: String,
           default: ["monthly"],
           enum: ["monthly", "quarterly", "yearly"],
+          required: true,
         },
         startDate: {
           type: Date,
+          required: true,
         },
         endDate: {
           type: Date,
+          required: true,
         },
       },
     },
