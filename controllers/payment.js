@@ -17,7 +17,7 @@ const PaymentService = async (req, res) => {
     currency: "ETB",
     amount: amount,
     tx_ref: tx_ref,
-    callback_url: "https://example.com/",
+    callback_url: "https://yero-chapa.onrender.com/api/payment/verify",
     return_url: "https://yerosen.com/",
     customization: {
       title: title,
