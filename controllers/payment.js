@@ -39,10 +39,9 @@ const chapaWebhook = async (req, res) => {
     type,
     status,
     reference,
+    created_at,
     updated_at,
   } = req.body;
-  const sd = req.body.created_at;
-  console.log(sd);
   const hash = crypto
     .createHmac("sha256", secret)
     .update(JSON.stringify(req.body))
@@ -59,7 +58,7 @@ const chapaWebhook = async (req, res) => {
       type,
       status,
       reference,
-      created_at: sd,
+      created_at,
       updated_at,
     });
     await payment.save();
@@ -67,25 +66,28 @@ const chapaWebhook = async (req, res) => {
     let endDate;
     if (amount == 100) {
       plan = "monthly";
-      endDate = new Date(sd.setMonth(sd.getMonth() + 1));
+      endDate = new Date(created_at);
+      endDate.setMonth(endDate.getMonth() + 1);
     } else if (amount == 500) {
       plan = "quarterly";
-      endDate = new Date(sd.setMonth(sd.getMonth() + 3));
+      endDate = new Date(created_at);
+      endDate.setMonth(endDate.getMonth() + 3);
     } else if (amount == 1000) {
       plan = "yearly";
-      endDate = new Date(sd.setFullYear(sd.getFullYear() + 1));
+      endDate = new Date(created_at);
+      endDate.setFullYear(endDate.getFullYear() + 1);
     }
     const sub = new Subscription({
       subscription: {
         plan,
-        startDate: sd,
+        startDate: created_at,
         endDate,
       },
     });
     await sub.save();
-    return res.send(200);
+    return res.sendStatus(200);
   }
-  return res.send(403);
+  return res.sendStatus(403);
 };
 
 module.exports = { PaymentService, chapaWebhook };
