@@ -1,6 +1,7 @@
 const { Chapa } = require("chapa-nodejs");
 const crypto = require("crypto");
 const Payment = require("../models/asset");
+const Subscription = require("../models/subscription");
 
 const chapa = new Chapa({
   secretKey: process.env.Chapa_Secret_key,
@@ -61,7 +62,26 @@ const chapaWebhook = async (req, res) => {
       updated_at,
     });
     await payment.save();
-
+    let plan = "";
+    let endDate;
+    if (amount == 100) {
+      plan = "monthly";
+      endDate = new Date(created_at.setMonth(created_at.getMonth() + 1));
+    } else if (amount == 500) {
+      plan = "quarterly";
+      endDate = new Date(created_at.setMonth(created_at.getMonth() + 3));
+    } else if (amount == 1000) {
+      plan = "yearly";
+      endDate = new Date(created_at.setFullYear(created_at.getFullYear() + 1));
+    }
+    new Subscription({
+      subscription: {
+        plan,
+        startDate: created_at ? created_at : updated_at,
+        endDate,
+      },
+    });
+    await Subscription.save();
     return res.send(200);
   }
   return res.send(403);
