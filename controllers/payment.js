@@ -26,6 +26,10 @@ const PaymentService = async (req, res) => {
   });
   console.log(tx_ref);
   console.log(data);
+  const response = await chapa.verify({
+    tx_ref,
+  });
+  console.log(response);
   return res.status(200).json(data);
 };
 
