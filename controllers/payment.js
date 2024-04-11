@@ -13,7 +13,7 @@ const PaymentService = async (req, res) => {
   const { Fname, Lname, email, amount } = req.body;
   console.log(req.body);
   if (amount !== 100 || 500 || 1000) {
-    return res.status(400).send("Invalid amount");
+    return res.status(400).json({ success: false, message: "Invalid amount" });
   }
 
   const data = await chapa.initialize({
@@ -27,7 +27,7 @@ const PaymentService = async (req, res) => {
     return_url: "https://yerosen.com/",
   });
 
-  return res.status(200).json(data);
+  return res.status(200).json({ success: false, data });
 };
 
 const chapaWebhook = async (req, res) => {
