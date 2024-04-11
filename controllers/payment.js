@@ -12,8 +12,10 @@ const PaymentService = async (req, res) => {
 
   const { Fname, Lname, email, amount } = req.body;
   console.log(req.body);
-  console.log(amount);
-  if (amount !== 100 && amount !== 500 && amount !== 1000) {
+  console.log(amount === 100);
+  const parsedAmount = parseInt(amount);
+  console.log(parsedAmount === 100);
+  if (parsedAmount !== 100 && parsedAmount !== 500 && parsedAmount !== 1000) {
     return res.json({ success: false, message: "Invalid amount" });
   }
 
