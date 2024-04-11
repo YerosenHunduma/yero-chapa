@@ -11,6 +11,10 @@ const PaymentService = async (req, res) => {
   const tx_ref = await chapa.generateTransactionReference();
 
   const { Fname, Lname, email, amount } = req.body;
+  console.log(req.body);
+  if (amount !== 100 || 500 || 1000) {
+    return res.status(400).send("Invalid amount");
+  }
 
   const data = await chapa.initialize({
     first_name: Fname,
